@@ -1,8 +1,8 @@
 fullData = []
 
 
-def should_analyze(file):
-    return file in []
+def should_analyze(ext):
+    return ext in [".b", ".bf"]
 
 
 def analyze(file):

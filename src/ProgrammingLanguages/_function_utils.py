@@ -17,7 +17,7 @@ def get_extension(path: str):
         extension += path[i]
         if path[i] == ".":
             break
-    return extension[::-1]
+    return extension[::-1].lower()
 
 
 def get_row_amount(file: str):

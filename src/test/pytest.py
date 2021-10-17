@@ -21,7 +21,7 @@ class TestPyAnalizerMethods(unittest.TestCase):
         self.assertEqual(chars_data["whitespaces"], 23)
         self.assertEqual(chars_data["digits"], 2)
         self.assertEqual(chars_data["numbers"], 2)
-        self.assertEqual(chars_data["total"], 99)
+        self.assertEqual(chars_data["total"], 97)
 
 
 if __name__ == '__main__':

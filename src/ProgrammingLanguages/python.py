@@ -74,7 +74,7 @@ def analyze(path):
     # count the final \n of each row as whitespace
     charactersData["whitespaces"] += (rowAmt - 1)
 
-    charactersData["total"] = charactersData["letters"] + charactersData["symbols"] + charactersData["whitespaces"] + charactersData["digits"] + charactersData["numbers"]
+    charactersData["total"] = charactersData["letters"] + charactersData["symbols"] + charactersData["whitespaces"] + charactersData["digits"]
 
 def get_data():
     return rowsData, charactersData
