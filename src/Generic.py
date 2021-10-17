@@ -1,6 +1,5 @@
-import FunctionUtil as fu
-fullData = []
 
+fullData = []
 
 def analyze(path):
     return

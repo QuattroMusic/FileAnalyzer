@@ -23,16 +23,16 @@ from prettytable.prettytable import PrettyTable
 from os import listdir
 from os.path import isfile, join
 from pkgutil import iter_modules
-import FunctionUtil as fu
+from ProgrammingLanguages import _function_utils as utils
 
-modules = [name for _, name, _ in iter_modules(['FileAnalyzer/ProgrammingLanguages'])]
+modules = [name for _, name, _ in iter_modules(['src/ProgrammingLanguages'])]
 
 for mod in modules:
     exec(f"import ProgrammingLanguages.{mod} as {mod}Executer")
 
 #path = input("Insert the path of the folder/file: ")
 
-path = "D:/Projects/GitHubProjects/2021/FileAnalyzer/"
+path = "../FileAnalyzer/"
 
 response = ""
 allFiles = []
@@ -57,8 +57,10 @@ get_files(path)
 
 # analyzing the data
 for filePath in allFiles:
-    ext = fu.get_extension(filePath)
+    ext = utils.get_extension(filePath)
     for mod in modules:
+        if mod == "_function_utils" or mod == "__init__": continue
+        
         exec(f"response = {mod}Executer.should_analyze(\"{ext}\")")
         if(response):
             exec(f"{mod}Executer.analyze('{filePath}')")
@@ -75,6 +77,8 @@ charactersLanguageTable.field_names = [
     "Language", "Letters", "Symbols", "White Spaces", "Digits", "Numbers", "Total"]
 
 for mod in modules:
+    if mod == "_function_utils" or mod == "__init__": continue
+    
     exec(f"data = {mod}Executer.get_data()")
     if len(data) != 0:
         programmingLanguageTable.add_row(data[0])

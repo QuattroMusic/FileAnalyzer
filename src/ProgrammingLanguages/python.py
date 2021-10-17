@@ -1,5 +1,5 @@
-import FunctionUtil as fu
-from re import split as reNumSplit
+from . import _function_utils as fu
+from re import split as re_split
 
 # file amount, rows, non-empty rows, empty rows, commented rows, imported rows
 # letters, symbols, whitespaces, digits, numbers, total
@@ -14,8 +14,6 @@ def should_analyze(ext):
 def analyze(path):
     print(path)
     file = fu.get_file_content(path)
-
-    multiLineComment = False
 
     # Rows Data
     # +1 file, +rows amt
@@ -36,17 +34,9 @@ def analyze(path):
     for row in file.split("\n"):
         row = row.replace(" ", "")
         print(row)
-        # TODO: problemi con multiline comments """
         # far finire nella stessa riga e controllare se non è una variabile
-        if multiLineComment:
-            rowsData[6] += 1
-            if row[0:3] == '"""':
-                multiLineComment = False
-                continue
-        if row[0:3] == '"""':
-            multiLineComment = not multiLineComment
-            rowsData[6] += 1
-        elif row[0:1] == "#":
+        # TODO: comments at the end of the line aren't being counted
+        if row[0:1] == "#":
             # commented
             rowsData[6] += 1
         elif row[0:4] == "from" or row[0:6] == "import":
@@ -55,11 +45,11 @@ def analyze(path):
 
     # Characters Data
     for row in fu.get_file_raw_content(path):
-        numbersSplit = reNumSplit('(\d+\.?\d*)', row)
+        numbersSplit = re_split('(\d+\.?\d*)', row)
         if len(numbersSplit) != 1:
             charactersData[5] += len(numbersSplit) // 2
         for char in row:
-            if char in [i for i in "qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM"]:
+            if char.isalpha():
                 charactersData[1] += 1
             elif char in [" ", "	"]:
                 # one is space, the other is \t
