@@ -71,12 +71,12 @@ genericTable = PrettyTable()
 programmingLanguageTable = PrettyTable()
 charactersLanguageTable = PrettyTable()
 
-programmingLanguageTable.field_names = ["Language", "Extension", "File Amount",
+programmingLanguageTable.field_names = ["Language", "Extension",
                                         "Rows Count", "Non-Empty Rows", "Empty Rows", "Commented Rows", "Imported Rows"]
 charactersLanguageTable.field_names = [
     "Language", "Letters", "Symbols", "White Spaces", "Digits", "Numbers", "Total"]
 
-row_total = [0] * 8
+row_total = [0] * 7
 char_total = [0] * 7
 for mod in modules:
     if mod == "_function_utils" or mod == "__init__": continue
@@ -89,7 +89,6 @@ for mod in modules:
         row_data = []
         row_data.append(row_dict["lang"])
         row_data.append(row_dict["extension"])
-        row_data.append(row_dict["file_amount"])
         row_data.append(row_dict["rows"])
         row_data.append(row_dict["non_empty_rows"])
         row_data.append(row_dict["empty_rows"])

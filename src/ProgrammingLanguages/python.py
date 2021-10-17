@@ -1,12 +1,11 @@
 from . import _function_utils as utils
 from re import split as re_split
 
-# file amount, rows, non-empty rows, empty rows, commented rows, imported rows
+# rows, non-empty rows, empty rows, commented rows, imported rows
 # letters, symbols, whitespaces, digits, numbers, total
 rowsData = {
     "lang": "Python",
     "extension": ".py",
-    "file_amount": 0,
     "rows": 0,
     "non_empty_rows": 0,
     "empty_rows": 0,
@@ -23,7 +22,6 @@ charactersData = {
     "total": 0
 }
 
-
 def should_analyze(ext):
     return ext in [".py", ".pyw"]
 
@@ -32,8 +30,6 @@ def analyze(path):
     file = utils.get_file_content(path)
 
     # Rows Data
-    # +1 file, +rows amt
-    rowsData["file_amount"] += 1
     rowAmt = utils.get_row_amount(file)
     rowsData["rows"] += rowAmt
 
