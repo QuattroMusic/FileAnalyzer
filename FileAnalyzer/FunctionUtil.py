@@ -1,17 +1,17 @@
 from re import search
 
 
-def GetFileContent(path: str):
+def get_file_content(path: str):
     with open(path, "r") as f:
         return f.read()
 
 
-def GetFileRawContent(path: str):
+def get_file_raw_content(path: str):
     with open(path, "r") as f:
         return f.readlines()
 
 
-def GetExtension(path: str):
+def get_extension(path: str):
     extension = ""
     for i in range(len(path)-1, -1, -1):
         extension += path[i]
@@ -20,11 +20,11 @@ def GetExtension(path: str):
     return extension[::-1]
 
 
-def GetRowAmount(file: str):
+def get_row_amount(file: str):
     return len(file.split("\n"))
 
 
-def NumberFormat(num: float, char: chr = "˙"):
+def number_format(num: float, char: chr = "˙"):
     """
     Function that add the symbol ˙ every 3 digits if 'char' argument is none
     If the char argument is given, it will place the given symbol

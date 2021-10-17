@@ -2,9 +2,9 @@ import FunctionUtil as fu
 fullData = []
 
 
-def Analyze(path):
+def analyze(path):
     return
 
 
-def GetData():
+def get_data():
     return fullData

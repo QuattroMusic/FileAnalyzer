@@ -1,10 +1,13 @@
 fullData = []
 
-def ShouldAnalyze(file):
+
+def should_analyze(file):
     return file in []
 
-def Analyze(file):
+
+def analyze(file):
     pass
 
-def GetData():
+
+def get_data():
     return fullData

@@ -7,19 +7,20 @@ rowsData = ["Python", ".py", 0, 0, 0, 0, 0, 0]
 charactersData = ["Python", 0, 0, 0, 0, 0, 0]
 
 
-def ShouldAnalyze(ext):
+def should_analyze(ext):
     return ext in [".py", ".pyw"]
 
 
-def Analyze(path):
-    file = fu.GetFileContent(path)
+def analyze(path):
+    print(path)
+    file = fu.get_file_content(path)
 
     multiLineComment = False
 
     # Rows Data
     # +1 file, +rows amt
     rowsData[2] += 1
-    rowAmt = fu.GetRowAmount(file)
+    rowAmt = fu.get_row_amount(file)
     rowsData[3] += rowAmt
 
     # empty and non-empty rows
@@ -53,7 +54,7 @@ def Analyze(path):
             rowsData[7] += 1
 
     # Characters Data
-    for row in fu.GetFileRawContent(path):
+    for row in fu.get_file_raw_content(path):
         numbersSplit = reNumSplit('(\d+\.?\d*)', row)
         if len(numbersSplit) != 1:
             charactersData[5] += len(numbersSplit) // 2
@@ -78,5 +79,5 @@ def Analyze(path):
     print(rowsData)
 
 
-def GetData():
+def get_data():
     return rowsData, charactersData
