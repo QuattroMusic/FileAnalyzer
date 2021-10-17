@@ -1,25 +1,30 @@
 from re import search
 
+
 def GetFileContent(path: str):
-    with open(path,"r") as f:
+    with open(path, "r") as f:
         return f.read()
 
+
 def GetFileRawContent(path: str):
-    with open(path,"r") as f:
+    with open(path, "r") as f:
         return f.readlines()
+
 
 def GetExtension(path: str):
     extension = ""
-    for i in range(len(path)-1,-1,-1):
+    for i in range(len(path)-1, -1, -1):
         extension += path[i]
         if path[i] == ".":
             break
     return extension[::-1]
 
+
 def GetRowAmount(file: str):
     return len(file.split("\n"))
 
-def NumberFormat(num: float,char: chr = "˙"):
+
+def NumberFormat(num: float, char: chr = "˙"):
     """
     Function that add the symbol ˙ every 3 digits if 'char' argument is none
     If the char argument is given, it will place the given symbol

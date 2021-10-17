@@ -18,6 +18,7 @@ Language
 
 TODO add a final row with the total (sum of all rows)
 """
+import Generic
 from prettytable.prettytable import PrettyTable
 from os import listdir
 from os.path import isfile, join
@@ -28,7 +29,6 @@ modules = [name for _, name, _ in iter_modules(['ProgrammingLanguages'])] + \
           [name for _, name, _ in iter_modules(['Audio'])] + \
           [name for _, name, _ in iter_modules(['Images'])] + \
           [name for _, name, _ in iter_modules(['Videos'])]
-import Generic
 
 for mod in modules:
     exec(f"import ProgrammingLanguages.{mod} as {mod}Executer")
@@ -41,23 +41,25 @@ response = ""
 allFiles = []
 data = []
 
-def GetFiles(path, continuous = ""):
-    #recursive algorythm to get all the files
-    #also enters folders
+
+def GetFiles(path, continuous=""):
+    # recursive algorythm to get all the files
+    # also enters folders
     path += f"{continuous}/"
     try:
         for f in listdir(path):
-            if isfile(join(path,f)):
+            if isfile(join(path, f)):
                 allFiles.append(path + f)
             else:
-                GetFiles(path,f)
+                GetFiles(path, f)
     except:
         allFiles.append(path)
 
-#start getting all the files and stores them in an array
+
+# start getting all the files and stores them in an array
 GetFiles(path)
 
-#analyzing the data
+# analyzing the data
 for filePath in allFiles:
     ext = fu.GetExtension(filePath)
     for mod in modules:
@@ -67,13 +69,15 @@ for filePath in allFiles:
             break
     Generic.Analyze(filePath)
     quit()
-#visualizing data
+# visualizing data
 genericTable = PrettyTable()
 programmingLanguageTable = PrettyTable()
 charactersLanguageTable = PrettyTable()
 
-programmingLanguageTable.field_names = ["Language","Extension","File Amount","Rows Count","Non-Empty Rows","Empty Rows","Commented Rows","Imported Rows"]
-charactersLanguageTable.field_names = ["Language","Letters","Symbols","White Spaces","Digits","Numbers","Total"]
+programmingLanguageTable.field_names = ["Language", "Extension", "File Amount",
+                                        "Rows Count", "Non-Empty Rows", "Empty Rows", "Commented Rows", "Imported Rows"]
+charactersLanguageTable.field_names = [
+    "Language", "Letters", "Symbols", "White Spaces", "Digits", "Numbers", "Total"]
 
 for mod in modules:
     exec(f"data = {mod}Executer.GetData()")
