@@ -25,19 +25,18 @@ from os.path import isfile, join
 from pkgutil import iter_modules
 from ProgrammingLanguages import _function_utils as utils
 
-modules = [name for _, name, _ in iter_modules(['src/ProgrammingLanguages'])]
+modules = [name for _, name, _ in iter_modules(['ProgrammingLanguages'])]
 
 for mod in modules:
     exec(f"import ProgrammingLanguages.{mod} as {mod}_analyzer")
 
 #path = input("Insert the path of the folder/file: ")
 
-path = "../FileAnalyzer/"
+path = "../"
 
 response = ""
 allFiles = []
 data = []
-
 
 def get_files(path, continuous=""):
     # recursive algorythm to get all the files
@@ -114,15 +113,18 @@ for mod in modules:
         
         programmingLanguageTable.add_row(row_data)
         charactersLanguageTable.add_row(char_data)
-    
+
+#TODO: if file type is just one, there is no reason to show "any"
+
 row_total[0] = "Any"
 row_total[1] = "*"
 char_total[0] = "Any"
 
 programmingLanguageTable.add_row(row_total)
 charactersLanguageTable.add_row(char_total)
-    
-genericTable.add_row(Generic.get_data())
+
+for ih,oh in zip(Generic.get_data(),["Extension","File Count"]):
+    genericTable.add_column(oh,ih)
 
 print(genericTable)
 print()

@@ -17,6 +17,8 @@ def get_extension(path: str):
         extension += path[i]
         if path[i] == ".":
             break
+        if path[i] == "/":
+            return None
     return extension[::-1].lower()
 
 
