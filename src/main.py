@@ -28,7 +28,7 @@ from ProgrammingLanguages import _function_utils as utils
 modules = [name for _, name, _ in iter_modules(['src/ProgrammingLanguages'])]
 
 for mod in modules:
-    exec(f"import ProgrammingLanguages.{mod} as {mod}Executer")
+    exec(f"import ProgrammingLanguages.{mod} as {mod}_analyzer")
 
 #path = input("Insert the path of the folder/file: ")
 
@@ -61,9 +61,9 @@ for filePath in allFiles:
     for mod in modules:
         if mod == "_function_utils" or mod == "__init__": continue
         
-        exec(f"response = {mod}Executer.should_analyze(\"{ext}\")")
+        exec(f"response = {mod}_analyzer.should_analyze(\"{ext}\")")
         if(response):
-            exec(f"{mod}Executer.analyze('{filePath}')")
+            exec(f"{mod}_analyzer.analyze('{filePath}')")
             break
     Generic.analyze(filePath)
 # visualizing data
@@ -76,14 +76,53 @@ programmingLanguageTable.field_names = ["Language", "Extension", "File Amount",
 charactersLanguageTable.field_names = [
     "Language", "Letters", "Symbols", "White Spaces", "Digits", "Numbers", "Total"]
 
+row_total = [0] * 8
+char_total = [0] * 7
 for mod in modules:
     if mod == "_function_utils" or mod == "__init__": continue
     
-    exec(f"data = {mod}Executer.get_data()")
+    exec(f"data = {mod}_analyzer.get_data()")
+    
     if len(data) != 0:
-        programmingLanguageTable.add_row(data[0])
-        charactersLanguageTable.add_row(data[1])
+        row_dict, char_dict = data
+        
+        row_data = []
+        row_data.append(row_dict["lang"])
+        row_data.append(row_dict["extension"])
+        row_data.append(row_dict["file_amount"])
+        row_data.append(row_dict["rows"])
+        row_data.append(row_dict["non_empty_rows"])
+        row_data.append(row_dict["empty_rows"])
+        row_data.append(row_dict["comment_rows"])
+        row_data.append(row_dict["import_rows"])
+        
+        
+        char_data = []
+        char_data.append(char_dict["lang"])
+        char_data.append(char_dict["letters"])
+        char_data.append(char_dict["symbols"])
+        char_data.append(char_dict["whitespaces"])
+        char_data.append(char_dict["digits"])
+        char_data.append(char_dict["numbers"])
+        char_data.append(char_dict["total"])
+        
+        for i, numb in enumerate(row_data):
+            if type(numb) is str: continue
+            row_total[i] += numb
+        for i, numb in enumerate(char_data):
+            if type(numb) is str: continue
+            char_total[i] += numb
+        
+        programmingLanguageTable.add_row(row_data)
+        charactersLanguageTable.add_row(char_data)
+    
+row_total[0] = "Any"
+row_total[1] = "*"
+char_total[0] = "Any"
 
+programmingLanguageTable.add_row(row_total)
+charactersLanguageTable.add_row(char_total)
+    
 genericTable.add_row(Generic.get_data())
 
 print(genericTable)

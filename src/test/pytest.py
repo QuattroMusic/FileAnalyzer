@@ -5,7 +5,7 @@ class TestPyAnalizerMethods(unittest.TestCase):
 
     def test_correct(self):
         pythonAnalyzer.analyze("src/test/examples/sample.py")
-        rows_data, chars_data = pythonAnalyzer.get_dict_data()
+        rows_data, chars_data = pythonAnalyzer.get_data()
         self.assertEqual(rows_data["lang"], "Python")
         self.assertEqual(rows_data["extension"], ".py")
         self.assertEqual(rows_data["file_amount"], 1)

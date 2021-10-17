@@ -76,30 +76,5 @@ def analyze(path):
 
     charactersData["total"] = charactersData["letters"] + charactersData["symbols"] + charactersData["whitespaces"] + charactersData["digits"] + charactersData["numbers"]
 
-    print(rowsData)
-
-
 def get_data():
-    # TODO: this is a temporary adaptor, you should return the dicts instead
-    out_data = []
-    out_data.append(rowsData["lang"])
-    out_data.append(rowsData["extension"])
-    out_data.append(rowsData["file_amount"])
-    out_data.append(rowsData["rows"])
-    out_data.append(rowsData["non_empty_rows"])
-    out_data.append(rowsData["empty_rows"])
-    out_data.append(rowsData["comment_rows"])
-    out_data.append(rowsData["import_rows"])
-    
-    char_data = []
-    char_data.append(charactersData["lang"])
-    char_data.append(charactersData["letters"])
-    char_data.append(charactersData["symbols"])
-    char_data.append(charactersData["whitespaces"])
-    char_data.append(charactersData["digits"])
-    char_data.append(charactersData["numbers"])
-    char_data.append(charactersData["total"])
-    return out_data, char_data
-
-def get_dict_data():
     return rowsData, charactersData
