@@ -47,10 +47,32 @@ def analyze(path):
         row = row.replace(" ", "")
 
         # TODO: comments at the end of the line aren't being counted
-        if row[0:1] == "#":
+        stripped = row.strip()
+        if len(stripped) > 0 and stripped[0] == "#":
             # commented
             rowsData["comment_rows"] += 1
-        elif row[0:4] == "from" or row[0:6] == "import":
+        elif len(stripped) > 0:
+            # check if there's a comment in the middle of the line
+            # comment must not be inside a standard string
+            
+            # when you split based on string rows, you can either be inside the string, or outside
+            # pieces outside the string are in the odd positions, pieces inside in the evens
+            splitted = [piece for i, piece in enumerate(stripped.split("\"")) if i % 2 == 0]
+            
+            # after that apply same logic to the other string symbol
+            code_pieces = []
+            for piece in splitted:
+                parts = [code_part for i, code_part in enumerate(piece.split("\'")) if i % 2 == 0]
+                code_pieces.extend(parts)
+            
+            # search for comments in each code part not in strings
+            for piece in code_pieces:
+                if '#' in piece:
+                    rowsData["comment_rows"] += 1
+                    break # when you've found a comment symbol, the rest of the line is a comment, don't count it again
+            
+            
+        if row[0:4] == "from" or row[0:6] == "import":
             # imports
             rowsData["import_rows"] += 1
 

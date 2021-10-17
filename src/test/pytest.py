@@ -9,19 +9,19 @@ class TestPyAnalizerMethods(unittest.TestCase):
         self.assertEqual(rows_data["lang"], "Python")
         self.assertEqual(rows_data["extension"], ".py")
         self.assertEqual(rows_data["file_amount"], 1)
-        self.assertEqual(rows_data["rows"], 7)
-        self.assertEqual(rows_data["non_empty_rows"], 5)
+        self.assertEqual(rows_data["rows"], 8)
+        self.assertEqual(rows_data["non_empty_rows"], 6)
         self.assertEqual(rows_data["empty_rows"], 2)
-        self.assertEqual(rows_data["comment_rows"], 1)
+        self.assertEqual(rows_data["comment_rows"], 2)
         self.assertEqual(rows_data["import_rows"], 1)
 
         self.assertEqual(chars_data["lang"], "Python")
-        self.assertEqual(chars_data["letters"], 60)
-        self.assertEqual(chars_data["symbols"], 12)
-        self.assertEqual(chars_data["whitespaces"], 23)
+        self.assertEqual(chars_data["letters"], 86)
+        self.assertEqual(chars_data["symbols"], 17)
+        self.assertEqual(chars_data["whitespaces"], 36)
         self.assertEqual(chars_data["digits"], 2)
         self.assertEqual(chars_data["numbers"], 2)
-        self.assertEqual(chars_data["total"], 97)
+        self.assertEqual(chars_data["total"], 141)
 
 
 if __name__ == '__main__':
