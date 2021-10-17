@@ -1,4 +1,4 @@
-from . import _function_utils as fu
+from . import _function_utils as utils
 from re import split as re_split
 
 # file amount, rows, non-empty rows, empty rows, commented rows, imported rows
@@ -29,29 +29,23 @@ def should_analyze(ext):
 
 
 def analyze(path):
-    print(path)
-    file = fu.get_file_content(path)
+    file = utils.get_file_content(path)
 
     # Rows Data
     # +1 file, +rows amt
     rowsData["file_amount"] += 1
-    rowAmt = fu.get_row_amount(file)
+    rowAmt = utils.get_row_amount(file)
     rowsData["rows"] += rowAmt
 
     # empty and non-empty rows
-    for row in file.split("\n"):
-        if len(row) == 0:
-            # empty
-            rowsData["empty_rows"] += 1
-        else:
-            # non-empty
-            rowsData["non_empty_rows"] += 1
-    # comment and import
+    empty, non_empty = utils.count_empty_or_not_rows(file)
+    rowsData["empty_rows"] += empty
+    rowsData["non_empty_rows"] += non_empty
 
+    # comment and import
     for row in file.split("\n"):
         row = row.replace(" ", "")
-        print(row)
-        # far finire nella stessa riga e controllare se non è una variabile
+
         # TODO: comments at the end of the line aren't being counted
         if row[0:1] == "#":
             # commented
@@ -61,26 +55,25 @@ def analyze(path):
             rowsData["import_rows"] += 1
 
     # Characters Data
-    for row in fu.get_file_raw_content(path):
+    for row in utils.get_file_raw_content(path):
         numbersSplit = re_split('(\d+\.?\d*)', row)
         if len(numbersSplit) != 1:
             charactersData["numbers"] += len(numbersSplit) // 2
         for char in row:
             if char.isalpha():
                 charactersData["letters"] += 1
-            elif char in [" ", "	"]:
+            elif char in [" ", "\t"]:
                 # one is space, the other is \t
                 charactersData["whitespaces"] += 1
-            elif char in [i for i in "1234567890"]:
+            elif char.isnumeric():
                 charactersData["digits"] += 1
-            else:
-                if char != "\n":
-                    # symbols
-                    charactersData["symbols"] += 1
-    # counts the final \n as whitespace
+            elif char != "\n":
+                # symbols
+                charactersData["symbols"] += 1
+    
+    # count the final \n of each row as whitespace
     charactersData["whitespaces"] += (rowAmt - 1)
 
-    # total
     charactersData["total"] = charactersData["letters"] + charactersData["symbols"] + charactersData["whitespaces"] + charactersData["digits"] + charactersData["numbers"]
 
     print(rowsData)

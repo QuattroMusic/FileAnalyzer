@@ -1,5 +1,5 @@
 from re import search
-
+from typing import Tuple
 
 def get_file_content(path: str):
     with open(path, "r") as f:
@@ -13,7 +13,7 @@ def get_file_raw_content(path: str):
 
 def get_extension(path: str):
     extension = ""
-    for i in range(len(path)-1, -1, -1):
+    for i in range(len(path) - 1, -1, -1):
         extension += path[i]
         if path[i] == ".":
             break
@@ -23,6 +23,17 @@ def get_extension(path: str):
 def get_row_amount(file: str):
     return len(file.split("\n"))
 
+def count_empty_or_not_rows(file: str) -> Tuple[int, int]:
+    empty_rows = 0
+    non_empty_rows = 0
+    for row in file.split("\n"):
+        if len(row) == 0:
+            # empty
+            empty_rows += 1
+        else:
+            # non-empty
+            non_empty_rows += 1
+    return (empty_rows, non_empty_rows)
 
 def number_format(num: float, char: chr = "˙"):
     """
