@@ -3,8 +3,25 @@ from re import split as re_split
 
 # file amount, rows, non-empty rows, empty rows, commented rows, imported rows
 # letters, symbols, whitespaces, digits, numbers, total
-rowsData = ["Python", ".py", 0, 0, 0, 0, 0, 0]
-charactersData = ["Python", 0, 0, 0, 0, 0, 0]
+rowsData = {
+    "lang": "Python",
+    "extension": ".py",
+    "file_amount": 0,
+    "rows": 0,
+    "non_empty_rows": 0,
+    "empty_rows": 0,
+    "comment_rows": 0,
+    "import_rows": 0
+}
+charactersData = {
+    "lang": "Python",
+    "letters": 0,
+    "symbols": 0,
+    "whitespaces": 0,
+    "digits": 0,
+    "numbers": 0,
+    "total": 0
+}
 
 
 def should_analyze(ext):
@@ -17,18 +34,18 @@ def analyze(path):
 
     # Rows Data
     # +1 file, +rows amt
-    rowsData[2] += 1
+    rowsData["file_amount"] += 1
     rowAmt = fu.get_row_amount(file)
-    rowsData[3] += rowAmt
+    rowsData["rows"] += rowAmt
 
     # empty and non-empty rows
     for row in file.split("\n"):
         if len(row) == 0:
             # empty
-            rowsData[5] += 1
+            rowsData["empty_rows"] += 1
         else:
             # non-empty
-            rowsData[4] += 1
+            rowsData["non_empty_rows"] += 1
     # comment and import
 
     for row in file.split("\n"):
@@ -38,36 +55,58 @@ def analyze(path):
         # TODO: comments at the end of the line aren't being counted
         if row[0:1] == "#":
             # commented
-            rowsData[6] += 1
+            rowsData["comment_rows"] += 1
         elif row[0:4] == "from" or row[0:6] == "import":
             # imports
-            rowsData[7] += 1
+            rowsData["import_rows"] += 1
 
     # Characters Data
     for row in fu.get_file_raw_content(path):
         numbersSplit = re_split('(\d+\.?\d*)', row)
         if len(numbersSplit) != 1:
-            charactersData[5] += len(numbersSplit) // 2
+            charactersData["numbers"] += len(numbersSplit) // 2
         for char in row:
             if char.isalpha():
-                charactersData[1] += 1
+                charactersData["letters"] += 1
             elif char in [" ", "	"]:
                 # one is space, the other is \t
-                charactersData[3] += 1
+                charactersData["whitespaces"] += 1
             elif char in [i for i in "1234567890"]:
-                charactersData[4] += 1
+                charactersData["digits"] += 1
             else:
                 if char != "\n":
                     # symbols
-                    charactersData[2] += 1
+                    charactersData["symbols"] += 1
     # counts the final \n as whitespace
-    charactersData[3] += (rowAmt - 1)
+    charactersData["whitespaces"] += (rowAmt - 1)
 
     # total
-    charactersData[-1] = sum(charactersData[1:-1])
+    charactersData["total"] = charactersData["letters"] + charactersData["symbols"] + charactersData["whitespaces"] + charactersData["digits"] + charactersData["numbers"]
 
     print(rowsData)
 
 
 def get_data():
+    # TODO: this is a temporary adaptor, you should return the dicts instead
+    out_data = []
+    out_data.append(rowsData["lang"])
+    out_data.append(rowsData["extension"])
+    out_data.append(rowsData["file_amount"])
+    out_data.append(rowsData["rows"])
+    out_data.append(rowsData["non_empty_rows"])
+    out_data.append(rowsData["empty_rows"])
+    out_data.append(rowsData["comment_rows"])
+    out_data.append(rowsData["import_rows"])
+    
+    char_data = []
+    char_data.append(charactersData["lang"])
+    char_data.append(charactersData["letters"])
+    char_data.append(charactersData["symbols"])
+    char_data.append(charactersData["whitespaces"])
+    char_data.append(charactersData["digits"])
+    char_data.append(charactersData["numbers"])
+    char_data.append(charactersData["total"])
+    return out_data, char_data
+
+def get_dict_data():
     return rowsData, charactersData

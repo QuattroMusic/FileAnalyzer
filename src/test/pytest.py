@@ -5,19 +5,24 @@ class TestPyAnalizerMethods(unittest.TestCase):
 
     def test_correct(self):
         pythonAnalyzer.analyze("src/test/examples/sample.py")
-        print(pythonAnalyzer.get_data())
-        self.assertEqual('foo'.upper(), 'FOO')
+        rows_data, chars_data = pythonAnalyzer.get_dict_data()
+        self.assertEqual(rows_data["lang"], "Python")
+        self.assertEqual(rows_data["extension"], ".py")
+        self.assertEqual(rows_data["file_amount"], 1)
+        self.assertEqual(rows_data["rows"], 7)
+        self.assertEqual(rows_data["non_empty_rows"], 5)
+        self.assertEqual(rows_data["empty_rows"], 2)
+        self.assertEqual(rows_data["comment_rows"], 1)
+        self.assertEqual(rows_data["import_rows"], 1)
 
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
+        self.assertEqual(chars_data["lang"], "Python")
+        self.assertEqual(chars_data["letters"], 60)
+        self.assertEqual(chars_data["symbols"], 12)
+        self.assertEqual(chars_data["whitespaces"], 23)
+        self.assertEqual(chars_data["digits"], 2)
+        self.assertEqual(chars_data["numbers"], 2)
+        self.assertEqual(chars_data["total"], 99)
 
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
 
 if __name__ == '__main__':
     unittest.main()
