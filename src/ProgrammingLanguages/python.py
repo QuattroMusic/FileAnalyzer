@@ -1,4 +1,4 @@
-from . import _function_utils as utils
+from . import _lang_utils as utils
 from re import split as re_split
 
 # rows, non-empty rows, empty rows, commented rows, imported rows

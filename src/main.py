@@ -23,12 +23,17 @@ from prettytable.prettytable import PrettyTable
 from os import listdir
 from os.path import isfile, join
 from pkgutil import iter_modules
-from ProgrammingLanguages import _function_utils as utils
+import _function_utils as utils
 
-modules = [name for _, name, _ in iter_modules(['ProgrammingLanguages'])]
+langModules = [name for _, name, _ in iter_modules(["ProgrammingLanguages"])]
+imgModules = [name for _, name, _ in iter_modules(["Images"])]
 
-for mod in modules:
+for mod in langModules:
+    if mod[0] == "_": continue
     exec(f"import ProgrammingLanguages.{mod} as {mod}_analyzer")
+for mod in imgModules:
+    if mod[0] == "_": continue
+    exec(f"import Images.{mod} as {mod}_analyzer")
 
 #path = input("Insert the path of the folder/file: ")
 
@@ -57,9 +62,8 @@ get_files(path)
 # analyzing the data
 for filePath in allFiles:
     ext = utils.get_extension(filePath)
-    for mod in modules:
-        if mod == "_function_utils" or mod == "__init__": continue
-        
+    for mod in langModules:
+        if mod[0] == "_": continue
         exec(f"response = {mod}_analyzer.should_analyze(\"{ext}\")")
         if(response):
             exec(f"{mod}_analyzer.analyze('{filePath}')")
@@ -77,8 +81,8 @@ charactersLanguageTable.field_names = [
 
 row_total = [0] * 7
 char_total = [0] * 7
-for mod in modules:
-    if mod == "_function_utils" or mod == "__init__": continue
+for mod in langModules:
+    if mod[0] == "_": continue
     
     exec(f"data = {mod}_analyzer.get_data()")
     

@@ -1,5 +1,5 @@
 from os import stat
-from ProgrammingLanguages import _function_utils as utils
+import _function_utils as utils
 
 extensionData = []
 fileAmountData = []
@@ -16,6 +16,8 @@ def process_size(size):
     while size >= 1024 and index<=3:
         size /= 1024
         index += 1
+    if sizes[index] == "byte":
+        return f"{round(size)} byte"
     return f"{round(size,2)} {sizes[index]}"
 
 def analyze(path):
