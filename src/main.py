@@ -58,11 +58,10 @@ def get_files(path, continuous=""):
 
 # start getting all the files and stores them in an array
 get_files(path)
-
 # analyzing the data
 for filePath in allFiles:
     ext = utils.get_extension(filePath)
-    for mod in langModules:
+    for mod in langModules + imgModules:
         if mod[0] == "_": continue
         exec(f"response = {mod}_analyzer.should_analyze(\"{ext}\")")
         if(response):
@@ -73,11 +72,13 @@ for filePath in allFiles:
 genericTable = PrettyTable()
 programmingLanguageTable = PrettyTable()
 charactersLanguageTable = PrettyTable()
+imagesTable = PrettyTable()
 
 programmingLanguageTable.field_names = ["Language", "Extension",
                                         "Rows Count", "Non-Empty Rows", "Empty Rows", "Commented Rows", "Imported Rows"]
 charactersLanguageTable.field_names = [
     "Language", "Letters", "Symbols", "White Spaces", "Digits", "Numbers", "Total"]
+imagesTable.field_names = ["Type","Extension","File Count","Min Resolution","Max Resolution"]
 
 row_total = [0] * 7
 char_total = [0] * 7
@@ -90,23 +91,12 @@ for mod in langModules:
         row_dict, char_dict = data
         
         row_data = []
-        row_data.append(row_dict["lang"])
-        row_data.append(row_dict["extension"])
-        row_data.append(row_dict["rows"])
-        row_data.append(row_dict["non_empty_rows"])
-        row_data.append(row_dict["empty_rows"])
-        row_data.append(row_dict["comment_rows"])
-        row_data.append(row_dict["import_rows"])
-        
-        
         char_data = []
-        char_data.append(char_dict["lang"])
-        char_data.append(char_dict["letters"])
-        char_data.append(char_dict["symbols"])
-        char_data.append(char_dict["whitespaces"])
-        char_data.append(char_dict["digits"])
-        char_data.append(char_dict["numbers"])
-        char_data.append(char_dict["total"])
+
+        for i in row_dict:
+            row_data.append(row_dict[i])
+        for i in char_dict:
+            char_data.append(char_dict[i])
         
         for i, numb in enumerate(row_data):
             if type(numb) is str: continue
@@ -117,6 +107,17 @@ for mod in langModules:
         
         programmingLanguageTable.add_row(row_data)
         charactersLanguageTable.add_row(char_data)
+
+for mod in imgModules:
+    if mod[0] == "_": continue
+
+    exec(f"data = {mod}_analyzer.get_data()")
+    imgTableRow = []
+
+    if len(data) != 0:
+        for i in data:
+            imgTableRow.append(data[i])
+        imagesTable.add_row(imgTableRow)
 
 #TODO: if file type is just one, there is no reason to show "any"
 
@@ -135,3 +136,8 @@ print()
 print(programmingLanguageTable)
 print()
 print(charactersLanguageTable)
+print()
+
+if imgTableRow[2] != 0:
+    print(imagesTable)
+    print()
