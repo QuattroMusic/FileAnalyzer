@@ -18,7 +18,7 @@ Language
 
 TODO add a final row with the total (sum of all rows)
 """
-import Generic
+import generic
 from prettytable.prettytable import PrettyTable
 from os import listdir
 from os.path import isfile, join
@@ -64,7 +64,7 @@ for filePath in allFiles:
         if(response):
             exec(f"{mod}_analyzer.analyze('{filePath}')")
             break
-    Generic.analyze(filePath)
+    generic.analyze(filePath)
 # visualizing data
 genericTable = PrettyTable()
 programmingLanguageTable = PrettyTable()
@@ -123,7 +123,7 @@ char_total[0] = "Any"
 programmingLanguageTable.add_row(row_total)
 charactersLanguageTable.add_row(char_total)
 
-for ih,oh in zip(Generic.get_data(),["Extension","File Count"]):
+for ih,oh in zip(generic.get_data(), ["Extension", "File Count", "Min Weight", "Max Weight", "Average Weight", "Total Weight"]):
     genericTable.add_column(oh,ih)
 
 print(genericTable)
