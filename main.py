@@ -25,6 +25,7 @@ import src._function_utils as utils
 
 langModules = [name for _, name, _ in iter_modules(["src/ProgrammingLanguages"])]
 imgModules = [name for _, name, _ in iter_modules(["src/Images"])]
+audioModules = [name for _, name, _ in iter_modules(["src/Audios"])]
 
 for mod in langModules:
     if mod[0] == "_": continue
@@ -32,6 +33,9 @@ for mod in langModules:
 for mod in imgModules:
     if mod[0] == "_": continue
     exec(f"import src.Images.{mod} as {mod}_analyzer")
+for mod in audioModules:
+    if mod[0] == "_": continue
+    exec(f"import src.Audios.{mod} as {mod}_analyzer")
 
 #path = input("Insert the path of the folder/file: ")
 
@@ -39,7 +43,6 @@ path = "./"
 
 response = ""
 allFiles = []
-data = []
 
 def get_files(path, continuous=""):
     # recursive algorythm to get all the files
@@ -59,11 +62,11 @@ get_files(path)
 # analyzing the data
 for filePath in allFiles:
     ext = utils.get_extension(filePath)
-    for mod in langModules + imgModules:
+    for mod in langModules + imgModules + audioModules:
         if mod[0] == "_": continue
         exec(f"response = {mod}_analyzer.should_analyze(\"{ext}\")")
         if(response):
-            exec(f"{mod}_analyzer.analyze('{filePath}')")
+            exec(f"{mod}_analyzer.analyze(\"{filePath}\")")
             break
     src.generic.analyze(filePath)
 # visualizing data
@@ -71,19 +74,22 @@ genericTable = PrettyTable()
 programmingLanguageTable = PrettyTable()
 charactersLanguageTable = PrettyTable()
 imagesTable = PrettyTable()
+audiosTable = PrettyTable()
 
 programmingLanguageTable.field_names = ["Language", "Extension",
                                         "Rows Count", "Non-Empty Rows", "Empty Rows", "Commented Rows", "Imported Rows"]
 charactersLanguageTable.field_names = [
     "Language", "Letters", "Symbols", "White Spaces", "Digits", "Numbers", "Total"]
 imagesTable.field_names = ["Type","Extension","File Count","Min Resolution","Max Resolution"]
+audiosTable.field_names = ["Type","Extension","File Count","Min Duration","Max Duration"]
 
 row_total = [0] * 7
 char_total = [0] * 7
 row_count = 0
 for mod in langModules:
     if mod[0] == "_": continue
-    
+
+    data = []
     exec(f"data = {mod}_analyzer.get_data()")
     
     if len(data) != 0:
@@ -109,16 +115,32 @@ for mod in langModules:
         
         row_count += 1
 
+showImageTable = False
 for mod in imgModules:
     if mod[0] == "_": continue
 
+    data = {}
     exec(f"data = {mod}_analyzer.get_data()")
     imgTableRow = []
 
-    if len(data) != 0:
+    if data["min_resolution"] != "":
         for i in data:
             imgTableRow.append(data[i])
         imagesTable.add_row(imgTableRow)
+        showImageTable = True
+
+showAudioTable = False
+for mod in audioModules:
+    if mod[0] == "_": continue
+
+    data = {}
+    exec(f"data = {mod}_analyzer.get_data()")
+    audiosTableRow = []
+    if data["min_duration"] != "":
+        for i in data:
+            audiosTableRow.append(data[i])
+        audiosTable.add_row(audiosTableRow)
+        showAudioTable = True
 
 row_total[0] = "Any"
 row_total[1] = "*"
@@ -128,8 +150,8 @@ if row_count > 1:
     programmingLanguageTable.add_row(row_total)
     charactersLanguageTable.add_row(char_total)
 
-for ih,oh in zip(src.generic.get_data(), ["Extension", "File Count", "Min Weight", "Max Weight", "Average Weight", "Total Weight"]):
-    genericTable.add_column(oh,ih)
+for ih, oh in zip(src.generic.get_data(), ["Extension", "File Count", "Min Weight", "Max Weight", "Average Weight", "Total Weight"]):
+    genericTable.add_column(oh, ih)
 
 print(genericTable)
 print()
@@ -138,6 +160,10 @@ print()
 print(charactersLanguageTable)
 print()
 
-if imgTableRow[2] != 0:
+if showImageTable:
     print(imagesTable)
+    print()
+
+if showAudioTable:
+    print(audiosTable)
     print()

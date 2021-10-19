@@ -1,8 +1,8 @@
 from ._img_utils import get_resolution_image
 
 rowsData = {
-    "type": "PNG",
-    "extension": ".png",
+    "type": "JPG",
+    "extension": ".jpg",
     "file_count": 0,
     "min_resolution": "",
     "max_resolution": "",
@@ -11,7 +11,7 @@ resolutions = []
 resolutionsProduct = []
 
 def should_analyze(ext):
-    return ext in [".png"]
+    return ext in [".jpg"]
 
 def analyze(path):
     width, height = get_resolution_image(path)
