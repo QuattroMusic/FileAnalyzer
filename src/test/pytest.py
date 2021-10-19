@@ -8,7 +8,6 @@ class TestPyAnalizerMethods(unittest.TestCase):
         rows_data, chars_data = pythonAnalyzer.get_data()
         self.assertEqual(rows_data["lang"], "Python")
         self.assertEqual(rows_data["extension"], ".py")
-        self.assertEqual(rows_data["file_amount"], 1)
         self.assertEqual(rows_data["rows"], 8)
         self.assertEqual(rows_data["non_empty_rows"], 6)
         self.assertEqual(rows_data["empty_rows"], 2)

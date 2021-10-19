@@ -1,5 +1,5 @@
 from os import stat
-import _function_utils as utils
+from . import _function_utils as utils
 
 extensionData = []
 fileAmountData = []

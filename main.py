@@ -18,22 +18,22 @@ Language
 
 TODO add a final row with the total (sum of all rows)
 """
-import generic
+import src.generic
 from prettytable.prettytable import PrettyTable
 from os import listdir
 from os.path import isfile, join
 from pkgutil import iter_modules
-import _function_utils as utils
+import src._function_utils as utils
 
-langModules = [name for _, name, _ in iter_modules(["ProgrammingLanguages"])]
-imgModules = [name for _, name, _ in iter_modules(["Images"])]
+langModules = [name for _, name, _ in iter_modules(["src/ProgrammingLanguages"])]
+imgModules = [name for _, name, _ in iter_modules(["src/Images"])]
 
 for mod in langModules:
     if mod[0] == "_": continue
-    exec(f"import ProgrammingLanguages.{mod} as {mod}_analyzer")
+    exec(f"import src.ProgrammingLanguages.{mod} as {mod}_analyzer")
 for mod in imgModules:
     if mod[0] == "_": continue
-    exec(f"import Images.{mod} as {mod}_analyzer")
+    exec(f"import src.Images.{mod} as {mod}_analyzer")
 
 #path = input("Insert the path of the folder/file: ")
 
@@ -67,7 +67,7 @@ for filePath in allFiles:
         if(response):
             exec(f"{mod}_analyzer.analyze('{filePath}')")
             break
-    generic.analyze(filePath)
+    src.generic.analyze(filePath)
 # visualizing data
 genericTable = PrettyTable()
 programmingLanguageTable = PrettyTable()
@@ -128,7 +128,7 @@ char_total[0] = "Any"
 programmingLanguageTable.add_row(row_total)
 charactersLanguageTable.add_row(char_total)
 
-for ih,oh in zip(generic.get_data(), ["Extension", "File Count", "Min Weight", "Max Weight", "Average Weight", "Total Weight"]):
+for ih,oh in zip(src.generic.get_data(), ["Extension", "File Count", "Min Weight", "Max Weight", "Average Weight", "Total Weight"]):
     genericTable.add_column(oh,ih)
 
 print(genericTable)
