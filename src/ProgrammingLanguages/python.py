@@ -28,7 +28,11 @@ def should_analyze(ext):
 
 def analyze(path):
     file = utils.get_file_content(path)
-
+    analyze_rows(file)
+    analyze_chars(file)
+    
+def analyze_rows(file):
+    
     # Rows Data
     rowAmt = utils.get_row_amount(file)
     rowsData["rows"] += rowAmt
@@ -71,8 +75,13 @@ def analyze(path):
             # imports
             rowsData["import_rows"] += 1
 
+
+def analyze_chars(file: str):
+    rows = file.splitlines(True)
+    rowAmt = utils.get_row_amount(file)
+    
     # Characters Data
-    for row in utils.get_file_raw_content(path):
+    for row in rows:
         numbersSplit = re_split('(\d+\.?\d*)', row)
         if len(numbersSplit) != 1:
             charactersData["numbers"] += len(numbersSplit) // 2
@@ -92,6 +101,7 @@ def analyze(path):
     charactersData["whitespaces"] += (rowAmt - 1)
 
     charactersData["total"] = charactersData["letters"] + charactersData["symbols"] + charactersData["whitespaces"] + charactersData["digits"]
+
 
 def get_data():
     return rowsData, charactersData
