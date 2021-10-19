@@ -42,7 +42,6 @@ def analyze(path):
     for row in file.split("\n"):
         row = row.replace(" ", "")
 
-        # TODO: comments at the end of the line aren't being counted
         stripped = row.strip()
         if len(stripped) > 0 and stripped[0] == "#":
             # commented

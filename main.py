@@ -15,8 +15,6 @@ Programming Languages
 Rows: amount, empty, non-empty, import, commented
 characters, numbers, whitespaces (1 tab = 1 enter = 1 space = 1)
 Language
-
-TODO add a final row with the total (sum of all rows)
 """
 import src.generic
 from prettytable.prettytable import PrettyTable
@@ -82,6 +80,7 @@ imagesTable.field_names = ["Type","Extension","File Count","Min Resolution","Max
 
 row_total = [0] * 7
 char_total = [0] * 7
+row_count = 0
 for mod in langModules:
     if mod[0] == "_": continue
     
@@ -107,6 +106,8 @@ for mod in langModules:
         
         programmingLanguageTable.add_row(row_data)
         charactersLanguageTable.add_row(char_data)
+        
+        row_count += 1
 
 for mod in imgModules:
     if mod[0] == "_": continue
@@ -119,14 +120,13 @@ for mod in imgModules:
             imgTableRow.append(data[i])
         imagesTable.add_row(imgTableRow)
 
-#TODO: if file type is just one, there is no reason to show "any"
-
 row_total[0] = "Any"
 row_total[1] = "*"
 char_total[0] = "Any"
 
-programmingLanguageTable.add_row(row_total)
-charactersLanguageTable.add_row(char_total)
+if row_count > 1:
+    programmingLanguageTable.add_row(row_total)
+    charactersLanguageTable.add_row(char_total)
 
 for ih,oh in zip(src.generic.get_data(), ["Extension", "File Count", "Min Weight", "Max Weight", "Average Weight", "Total Weight"]):
     genericTable.add_column(oh,ih)
