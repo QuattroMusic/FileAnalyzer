@@ -35,7 +35,7 @@ for mod in imgModules:
 
 #path = input("Insert the path of the folder/file: ")
 
-path = "../"
+path = "./"
 
 response = ""
 allFiles = []

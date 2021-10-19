@@ -22,6 +22,15 @@ charactersData = {
     "total": 0
 }
 
+def reset():
+    for key, value in rowsData.items():
+        print(key, value)
+        if type(value) is int:
+            rowsData[key] = 0
+    for key, value in charactersData.items():
+        if type(value) is int:
+            charactersData[key] = 0
+
 def should_analyze(ext):
     return ext in [".py", ".pyw"]
 
