@@ -76,6 +76,7 @@ charactersLanguageTable = PrettyTable()
 imagesTable = PrettyTable()
 audiosTable = PrettyTable()
 
+genericTable.field_names = ["Extension", "File Count", "Min Weight", "Max Weight", "Average Weight", "Total Weight"]
 programmingLanguageTable.field_names = ["Language", "Extension",
                                         "Rows Count", "Non-Empty Rows", "Empty Rows", "Commented Rows", "Imported Rows"]
 charactersLanguageTable.field_names = [
@@ -83,8 +84,8 @@ charactersLanguageTable.field_names = [
 imagesTable.field_names = ["Type","Extension","File Count","Min Resolution","Max Resolution"]
 audiosTable.field_names = ["Type","Extension","File Count","Min Duration","Max Duration"]
 
-row_total = [0] * 7
-char_total = [0] * 7
+row_total = [0,0]
+char_total = [0]
 row_count = 0
 for mod in langModules:
     if mod[0] == "_": continue
@@ -105,11 +106,11 @@ for mod in langModules:
         
         for i, numb in enumerate(row_data):
             if type(numb) is str: continue
-            row_total[i] += numb
+            row_total.append(numb)
         for i, numb in enumerate(char_data):
             if type(numb) is str: continue
-            char_total[i] += numb
-        
+            char_total.append(numb)
+
         programmingLanguageTable.add_row(row_data)
         charactersLanguageTable.add_row(char_data)
         
@@ -150,8 +151,8 @@ if row_count > 1:
     programmingLanguageTable.add_row(row_total)
     charactersLanguageTable.add_row(char_total)
 
-for ih, oh in zip(src.generic.get_data(), ["Extension", "File Count", "Min Weight", "Max Weight", "Average Weight", "Total Weight"]):
-    genericTable.add_column(oh, ih)
+for i in src.generic.get_data():
+    genericTable.add_row(i)
 
 print(genericTable)
 print()

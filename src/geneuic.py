@@ -58,4 +58,9 @@ def get_data():
         total_weights.append(process_size(sum(i)))
 
     #TODO: add the total at the bottom
-    return extensionData, fileAmountData, min_weight, max_weight, average_weight, total_weights
+
+    listona = list(zip(extensionData, fileAmountData, min_weight, max_weight, average_weight, total_weights))
+
+    listona.sort(key=lambda x:x[1],reverse=True)
+
+    return listona
