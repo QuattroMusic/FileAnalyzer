@@ -15,12 +15,12 @@ class TestCSharpAnalizerMethods(unittest.TestCase):
         self.assertEqual(rows_data["import_rows"], 1)
 
         self.assertEqual(chars_data["lang"], "CSharp")
-        self.assertEqual(chars_data["letters"], 177)
+        self.assertEqual(chars_data["letters"], 165)
         self.assertEqual(chars_data["symbols"], 32)
-        self.assertEqual(chars_data["whitespaces"], 88)
+        self.assertEqual(chars_data["whitespaces"], 101)
         self.assertEqual(chars_data["digits"], 0)
         self.assertEqual(chars_data["numbers"], 0)
-        self.assertEqual(chars_data["total"], 297)
+        self.assertEqual(chars_data["total"], 298)
     
     def test_comment_simple(self):
         cSharpAnalyzer.analyze_rows("// this is a comment")
