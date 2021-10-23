@@ -2,11 +2,11 @@ from typing import Tuple
 from re import split as re_split
 
 def get_file_content(path: str):
-    with open(path, "r") as f:
+    with open(path, "r", encoding='utf-8') as f:
         return f.read()
 
 def get_file_raw_content(path: str):
-    with open(path, "r") as f:
+    with open(path, "r", encoding='utf-8') as f:
         return f.readlines()
 
 def get_row_amount(file: str):
