@@ -41,6 +41,13 @@ class TestCSharpAnalizerMethods(unittest.TestCase):
         cSharpAnalyzer.analyze_rows("a = \"this // is in a string\";")
         rows_data, _ = cSharpAnalyzer.get_data()
         self.assertEqual(rows_data["comment_rows"], 0)
+    
+    def test_multiline_comments(self):
+        cSharpAnalyzer.analyze_rows("/* single line comment */")
+        cSharpAnalyzer.analyze_rows("/* multi \n line \n comment */")
+        rows_data, _ = cSharpAnalyzer.get_data()
+        self.assertEqual(rows_data["comment_rows"], 4)
+        
         
     def tearDown(self):
         cSharpAnalyzer.reset()

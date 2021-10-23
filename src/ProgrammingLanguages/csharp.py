@@ -53,6 +53,7 @@ def analyze_rows(file):
     rowsData["non_empty_rows"] += non_empty
 
     # comment and import
+    is_inside_multiline_comment = False
     for row in file.split("\n"):
         row = row.replace(" ", "")
 
@@ -73,6 +74,15 @@ def analyze_rows(file):
                 if '//' in piece:
                     rowsData["comment_rows"] += 1
                     break # when you've found a comment symbol, the rest of the line is a comment, don't count it again
+                
+                if '/*' in piece:
+                    is_inside_multiline_comment = True
+                
+        if is_inside_multiline_comment == True:
+            rowsData["comment_rows"] += 1
+        
+        if '*/' in row:
+            is_inside_multiline_comment = False
         
         
         if row.startswith("using"):
