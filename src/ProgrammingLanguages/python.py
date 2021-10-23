@@ -1,8 +1,6 @@
 from . import _lang_utils as utils
 from re import split as re_split
 
-# rows, non-empty rows, empty rows, commented rows, imported rows
-# letters, symbols, whitespaces, digits, numbers, total
 rowsData = {
     "lang": "Python",
     "extension": ".py",
