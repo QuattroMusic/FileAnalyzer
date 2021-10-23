@@ -1,5 +1,6 @@
 from PIL import Image
 
+
 def get_resolution_image(path):
     try:
         width, height = Image.open(path).size
