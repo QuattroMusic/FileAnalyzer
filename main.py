@@ -18,31 +18,45 @@ Language
 """
 import src.generic
 from prettytable.prettytable import PrettyTable
+import sys
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, exists
 from pkgutil import iter_modules
 import src._function_utils as utils
 
-langModules = [name for _, name, _ in iter_modules(["src/ProgrammingLanguages"])]
+langModules = [name for _, name, _ in iter_modules(
+    ["src/ProgrammingLanguages"])]
 imgModules = [name for _, name, _ in iter_modules(["src/Images"])]
 audioModules = [name for _, name, _ in iter_modules(["src/Audios"])]
 
 for mod in langModules:
-    if mod[0] == "_": continue
+    if mod[0] == "_":
+        continue
     exec(f"import src.ProgrammingLanguages.{mod} as {mod}_analyzer")
 for mod in imgModules:
-    if mod[0] == "_": continue
+    if mod[0] == "_":
+        continue
     exec(f"import src.Images.{mod} as {mod}_analyzer")
 for mod in audioModules:
-    if mod[0] == "_": continue
+    if mod[0] == "_":
+        continue
     exec(f"import src.Audios.{mod} as {mod}_analyzer")
 
-#path = input("Insert the path of the folder/file: ")
 
-path = "./"
+customPath = "./"
+
+if len(sys.argv) > 1:
+    customPath = sys.argv[1]
+
+if exists(customPath):
+    path = customPath
+else:
+    print("This path does not exists")
+    exit()
 
 response = ""
 allFiles = []
+
 
 def get_files(path, continuous=""):
     # recursive algorythm to get all the files
@@ -57,13 +71,15 @@ def get_files(path, continuous=""):
     except:
         allFiles.append(path)
 
+
 # start getting all the files and stores them in an array
 get_files(path)
 # analyzing the data
 for filePath in allFiles:
     ext = utils.get_extension(filePath)
     for mod in langModules + imgModules + audioModules:
-        if mod[0] == "_": continue
+        if mod[0] == "_":
+            continue
         exec(f"response = {mod}_analyzer.should_analyze(\"{ext}\")")
         if(response):
             exec(f"{mod}_analyzer.analyze(\"{filePath}\")")
@@ -76,26 +92,30 @@ charactersLanguageTable = PrettyTable()
 imagesTable = PrettyTable()
 audiosTable = PrettyTable()
 
-genericTable.field_names = ["Extension", "File Count", "Min Weight", "Max Weight", "Average Weight", "Total Weight"]
+genericTable.field_names = ["Extension", "File Count",
+                            "Min Weight", "Max Weight", "Average Weight", "Total Weight"]
 programmingLanguageTable.field_names = ["Language", "Extension",
                                         "Rows Count", "Non-Empty Rows", "Empty Rows", "Commented Rows", "Imported Rows"]
 charactersLanguageTable.field_names = [
     "Language", "Letters", "Symbols", "White Spaces", "Digits", "Numbers", "Total"]
-imagesTable.field_names = ["Type","Extension","File Count","Min Resolution","Max Resolution"]
-audiosTable.field_names = ["Type","Extension","File Count","Min Duration","Max Duration"]
+imagesTable.field_names = ["Type", "Extension",
+                           "File Count", "Min Resolution", "Max Resolution"]
+audiosTable.field_names = ["Type", "Extension",
+                           "File Count", "Min Duration", "Max Duration"]
 
 row_total = [0] * 7
 char_total = [0] * 7
 row_count = 0
 for mod in langModules:
-    if mod[0] == "_": continue
+    if mod[0] == "_":
+        continue
 
     data = []
     exec(f"data = {mod}_analyzer.get_data()")
-    
+
     if len(data) != 0:
         row_dict, char_dict = data
-        
+
         row_data = []
         char_data = []
 
@@ -103,22 +123,25 @@ for mod in langModules:
             row_data.append(row_dict[i])
         for i in char_dict:
             char_data.append(char_dict[i])
-        
+
         for i, numb in enumerate(row_data):
-            if type(numb) is str: continue
+            if type(numb) is str:
+                continue
             row_total[i] += numb
         for i, numb in enumerate(char_data):
-            if type(numb) is str: continue
+            if type(numb) is str:
+                continue
             char_total[i] += numb
 
         programmingLanguageTable.add_row(row_data)
         charactersLanguageTable.add_row(char_data)
-        
+
         row_count += 1
 
 showImageTable = False
 for mod in imgModules:
-    if mod[0] == "_": continue
+    if mod[0] == "_":
+        continue
 
     data = {}
     exec(f"data = {mod}_analyzer.get_data()")
@@ -132,7 +155,8 @@ for mod in imgModules:
 
 showAudioTable = False
 for mod in audioModules:
-    if mod[0] == "_": continue
+    if mod[0] == "_":
+        continue
 
     data = {}
     exec(f"data = {mod}_analyzer.get_data()")
