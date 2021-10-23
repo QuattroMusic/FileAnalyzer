@@ -68,20 +68,14 @@ def analyze_rows(file):
             # pieces outside the string are in the odd positions, pieces inside in the evens
             splitted = [piece for i, piece in enumerate(stripped.split("\"")) if i % 2 == 0]
             
-            # after that apply same logic to the other string symbol
-            code_pieces = []
-            for piece in splitted:
-                parts = [code_part for i, code_part in enumerate(piece.split("\'")) if i % 2 == 0]
-                code_pieces.extend(parts)
-            
             # search for comments in each code part not in strings
-            for piece in code_pieces:
-                if '#' in piece:
+            for piece in splitted:
+                if '//' in piece:
                     rowsData["comment_rows"] += 1
                     break # when you've found a comment symbol, the rest of the line is a comment, don't count it again
-            
-            
-        if row[0:4] == "from" or row[0:6] == "import":
+        
+        
+        if row.startswith("using"):
             # imports
             rowsData["import_rows"] += 1
 

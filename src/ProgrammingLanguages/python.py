@@ -76,9 +76,9 @@ def analyze_rows(file):
                 if '#' in piece:
                     rowsData["comment_rows"] += 1
                     break # when you've found a comment symbol, the rest of the line is a comment, don't count it again
-            
-            
-        if row[0:4] == "from" or row[0:6] == "import":
+        
+        
+        if row.startswith("from") or row.startswith("import"):
             # imports
             rowsData["import_rows"] += 1
 
