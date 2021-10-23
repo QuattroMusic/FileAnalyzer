@@ -24,6 +24,7 @@ from os.path import isfile, join, exists
 from pkgutil import iter_modules
 import src._function_utils as utils
 
+
 langModules = [name for _, name, _ in iter_modules(
     ["src/ProgrammingLanguages"])]
 imgModules = [name for _, name, _ in iter_modules(["src/Images"])]
