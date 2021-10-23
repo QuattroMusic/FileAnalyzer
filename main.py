@@ -84,8 +84,8 @@ charactersLanguageTable.field_names = [
 imagesTable.field_names = ["Type","Extension","File Count","Min Resolution","Max Resolution"]
 audiosTable.field_names = ["Type","Extension","File Count","Min Duration","Max Duration"]
 
-row_total = [0,0]
-char_total = [0]
+row_total = [0] * 7
+char_total = [0] * 7
 row_count = 0
 for mod in langModules:
     if mod[0] == "_": continue
@@ -106,10 +106,10 @@ for mod in langModules:
         
         for i, numb in enumerate(row_data):
             if type(numb) is str: continue
-            row_total.append(numb)
+            row_total[i] += numb
         for i, numb in enumerate(char_data):
             if type(numb) is str: continue
-            char_total.append(numb)
+            char_total[i] += numb
 
         programmingLanguageTable.add_row(row_data)
         charactersLanguageTable.add_row(char_data)

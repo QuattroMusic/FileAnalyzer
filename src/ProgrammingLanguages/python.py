@@ -54,7 +54,7 @@ def analyze_rows(file):
         row = row.replace(" ", "")
 
         stripped = row.strip()
-        if len(stripped) > 0 and stripped[0] == "#":
+        if len(stripped) > 0 and stripped.startswith("#"):
             # commented
             rowsData["comment_rows"] += 1
         elif len(stripped) > 0:
