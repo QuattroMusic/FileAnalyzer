@@ -43,12 +43,10 @@ for mod in audioModules:
     exec(f"import src.Audios.{mod} as {mod}_analyzer")
 
 
-customPath = ""
+customPath = "./"
 
 if len(sys.argv) > 1:
     customPath = sys.argv[1]
-else:
-    customPath = "./"
 
 if exists(customPath):
     path = customPath
