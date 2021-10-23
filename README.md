@@ -35,3 +35,8 @@ Contributions are accepted!
 To do so, creare a Pull Request with suggested changes and we'll discuss it and (hopefully) approve it.
 
 If you don't know where to start you can look at the list of issues to know what still needs to be done.
+
+# Dependencies
+
+`audioread`, used to analyze audio files
+`pip install audioread` to install it, if you don't have it.
