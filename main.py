@@ -42,7 +42,6 @@ for mod in audioModules:
         continue
     exec(f"import src.Audios.{mod} as {mod}_analyzer")
 
-#path = input("Insert the path of the folder/file: ")
 
 customPath = ""
 
