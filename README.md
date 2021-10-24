@@ -23,6 +23,7 @@ Currently only some features/languages/file formats are supported. These include
 Languages:
 - Python
 - CSharp
+- EndC, a language made by [ENDERZOMBI102](https://github.com/ENDERZOMBI102)
 
 Other:
 - png
@@ -40,6 +41,4 @@ If you don't know where to start you can look at the list of issues to know what
 
 # Dependencies
 
-`audioread`, used to analyze audio files.
-
-use `pip install audioread` to install it, if you don't have it.
+You can see dependencies inside requirements.txt
