@@ -2,7 +2,7 @@ fullData = []
 
 
 def should_analyze(file):
-    return file in []
+    return file in [".bat",".cmd"]
 
 
 def analyze(file):
