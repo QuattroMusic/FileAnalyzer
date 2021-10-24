@@ -41,4 +41,4 @@ If you don't know where to start you can look at the list of issues to know what
 
 # Dependencies
 
-You can see dependencies inside requirements.txt
+You can see dependencies inside requirements.txt and install them with `pip install -r requirements.txt`.
