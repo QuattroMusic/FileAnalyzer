@@ -1,5 +1,4 @@
 from . import _lang_utils as utils
-from re import split as re_split
 
 rowsData = {
     "lang": "CSharp",

@@ -16,6 +16,9 @@ Rows: amount, empty, non-empty, import, commented
 characters, numbers, whitespaces (1 tab = 1 enter = 1 space = 1)
 Language
 """
+import os
+from typing import List
+
 import src.generic
 from prettytable.prettytable import PrettyTable
 import sys
@@ -23,6 +26,7 @@ from os import listdir
 from os.path import isfile, join, exists
 from pkgutil import iter_modules
 import src._function_utils as utils
+
 
 langModules = [name for _, name, _ in iter_modules(
     ["src/ProgrammingLanguages"])]
@@ -55,7 +59,7 @@ else:
     exit()
 
 response = ""
-allFiles = []
+allFiles: List[str] = []
 
 
 def get_files(path, continuous=""):
@@ -82,7 +86,7 @@ for filePath in allFiles:
             continue
         exec(f"response = {mod}_analyzer.should_analyze(\"{ext}\")")
         if(response):
-            exec(f"{mod}_analyzer.analyze(\"{filePath}\")")
+            exec(f'{mod}_analyzer.analyze("{filePath.replace(os.sep, "/")}")')
             break
     src.generic.analyze(filePath)
 # visualizing data

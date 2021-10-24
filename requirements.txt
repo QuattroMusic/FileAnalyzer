@@ -1,2 +1,3 @@
 audioread==2.1.9
 prettytable~=2.2.1
+Pillow~=8.4.0
