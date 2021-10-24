@@ -40,10 +40,12 @@ parser = ArgumentParser(
 parser.add_argument(
     'directory',
     default=Path('.'),
+    help='Directory to search in',
     type=Path,
-    help='Directory to search in'
+    nargs='?'
 )
 args: Arguments = cast( Arguments, parser.parse_args( sys.argv[1:] ) )
+
 
 if not args.directory.exists():
     print("This path does not exists")
