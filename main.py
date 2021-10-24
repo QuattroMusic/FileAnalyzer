@@ -153,6 +153,7 @@ for mod in src.analyzer.get_analyzers_for_package('ProgrammingLanguages'):
 
         row_count += 1
 
+
 showImageTable = False
 for mod in src.analyzer.get_analyzers_for_package('Images'):
 
@@ -161,6 +162,7 @@ for mod in src.analyzer.get_analyzers_for_package('Images'):
     if data["min_resolution"] != "":
         imagesTable.add_row( data.values() )
         showImageTable = True
+
 
 showAudioTable = False
 for mod in src.analyzer.get_analyzers_for_package('Audios'):
