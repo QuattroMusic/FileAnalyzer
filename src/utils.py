@@ -8,6 +8,8 @@ def get_files(path: Path) -> List[Path]:
     # also enters folders
     files: List[Path] = []
     for obj in path.glob('*'):
+        if obj.name.startswith('_'):
+            continue
         if obj.is_file():
             files.append(obj)
         else:
