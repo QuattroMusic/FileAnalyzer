@@ -123,11 +123,31 @@ for mod in langModules:
         row_data = []
         char_data = []
 
+        # convert dict to arrays
         for i in row_dict:
             row_data.append(row_dict[i])
         for i in char_dict:
             char_data.append(char_dict[i])
 
+        # if row data is empty, no need to add
+        is_empty = True
+        for i in row_data:
+            if i != 0 and type(i) == int:
+                is_empty = False
+                break
+        if is_empty:
+            continue
+
+        # same for char data
+        is_empty = True
+        for i in char_data:
+            if i != 0 and type(i) == int:
+                is_empty = False
+                break
+        if is_empty:
+            continue
+
+        # add to total
         for i, numb in enumerate(row_data):
             if type(numb) is str:
                 continue
@@ -137,6 +157,7 @@ for mod in langModules:
                 continue
             char_total[i] += numb
 
+        # add to table
         programmingLanguageTable.add_row(row_data)
         charactersLanguageTable.add_row(char_data)
 
