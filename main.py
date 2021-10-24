@@ -18,7 +18,7 @@ Language
 """
 from argparse import ArgumentParser
 from pathlib import Path
-from typing import Tuple, cast
+from typing import Tuple, cast, Union, Dict
 
 import src.generic
 import src.analyzer
@@ -112,8 +112,24 @@ audiosTable.field_names = [
 ]
 
 
-row_total = [0] * 7
-char_total = [0] * 7
+row_total: Dict[str, Union[str, int] ] = {
+    'lang': 'Any',
+    'extension': '.*',
+    'rows': 0,
+    'non_empty_rows': 0,
+    'empty_rows': 0,
+    'comment_rows': 0,
+    'import_rows': 0
+}
+char_total: Dict[str, Union[str, int] ] = {
+    'lang': 'Any',
+    'letters': 0,
+    'symbols': 0,
+    'whitespaces': 0,
+    'digits': 0,
+    'numbers': 0,
+    'total': 0
+}
 row_count = 0
 
 
@@ -126,6 +142,14 @@ for mod in src.analyzer.get_analyzers_for_package('ProgrammingLanguages'):
 
         programmingLanguageTable.add_row( row_dict.values() )
         charactersLanguageTable.add_row( char_dict.values() )
+
+        for key in row_dict:
+            if key not in ('lang', 'extension'):
+                row_total[ key ] += row_dict[ key ]
+
+        for key in char_dict:
+            if key not in ('lang', 'extension'):
+                char_total[ key ] += char_dict[ key ]
 
         row_count += 1
 
@@ -147,14 +171,9 @@ for mod in src.analyzer.get_analyzers_for_package('Audios'):
         showAudioTable = True
 
 
-row_total[0] = "Any"
-row_total[1] = ".*"
-char_total[0] = "Any"
-
-
 if row_count > 1:
-    programmingLanguageTable.add_row(row_total)
-    charactersLanguageTable.add_row(char_total)
+    programmingLanguageTable.add_row( row_total.values() )
+    charactersLanguageTable.add_row( char_total.values() )
 
 for i in src.generic.get_data():
     genericTable.add_row(i)
