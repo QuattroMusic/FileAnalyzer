@@ -11,19 +11,22 @@ total_weights = []
 weights = [[None]]
 sizes = ["byte", "Kb", "Mb", "Gb", "Tb"]
 
+
 def process_size(size):
     index = 0
-    while size >= 1024 and index<=3:
+    while size >= 1024 and index <= 3:
         size /= 1024
         index += 1
     if sizes[index] == "byte":
         return f"{round(size)} byte"
     return f"{round(size,2)} {sizes[index]}"
 
+
 def analyze(path):
     ext = utils.get_extension(path)
-    if ext is None: return
-    #append extension
+    if ext is None:
+        return
+    # append extension
     if ext not in extensionData:
         extensionData.append(ext)
         fileAmountData.append(1)
@@ -40,6 +43,7 @@ def analyze(path):
     else:
         weights.append([ext, path])
 
+
 def get_data():
     # remove the useless infos (like the extensions and the [None])
     # the extension is useless because the array is sorted based on the others array
@@ -47,7 +51,7 @@ def get_data():
     weights.pop(0)
     for i in range(len(weights)):
         weights[i].pop(0)
-        for index,obj in enumerate(weights[i]):
+        for index, obj in enumerate(weights[i]):
             weights[i][index] = stat(weights[i][index]).st_size
 
     for i in weights:
@@ -57,10 +61,11 @@ def get_data():
         average_weight.append(process_size(sum(i)/len(i)))
         total_weights.append(process_size(sum(i)))
 
-    #TODO: add the total at the bottom
+    # TODO: add the total at the bottom
 
-    listona = list(zip(extensionData, fileAmountData, min_weight, max_weight, average_weight, total_weights))
+    listona = list(zip(extensionData, fileAmountData, min_weight,
+                       max_weight, average_weight, total_weights))
 
-    listona.sort(key=lambda x:x[1],reverse=True)
+    listona.sort(key=lambda x: x[1], reverse=True)
 
     return listona

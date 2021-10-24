@@ -41,7 +41,7 @@ def analyze(path):
 
 
 def analyze_rows(file):
-    
+
     # Rows Data
     rowAmt = utils.get_row_amount(file)
     rowsData["rows"] += rowAmt
@@ -63,30 +63,31 @@ def analyze_rows(file):
         elif len(stripped) > 0:
             # check if there's a comment in the middle of the line
             # comment must not be inside a standard string
-            
+
             # when you split based on string rows, you can either be inside the string, or outside
             # pieces outside the string are in the odd positions, pieces inside in the evens
-            splitted = [piece for i, piece in enumerate(stripped.split("\"")) if i % 2 == 0]
-            
+            splitted = [piece for i, piece in enumerate(
+                stripped.split("\"")) if i % 2 == 0]
+
             # search for comments in each code part not in strings
             for piece in splitted:
                 if '//' in piece:
                     rowsData["comment_rows"] += 1
-                    break # when you've found a comment symbol, the rest of the line is a comment, don't count it again
-                
+                    break  # when you've found a comment symbol, the rest of the line is a comment, don't count it again
+
                 if '/*' in piece:
                     is_inside_multiline_comment = True
-                
+
         if is_inside_multiline_comment == True:
             rowsData["comment_rows"] += 1
-        
+
         if '*/' in row:
             is_inside_multiline_comment = False
-        
-        
+
         if row.startswith("using"):
             # imports
             rowsData["import_rows"] += 1
+
 
 def get_data():
     return rowsData, charactersData
