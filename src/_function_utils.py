@@ -1,6 +1,5 @@
 from re import search
 
-
 def get_extension(path: str):
     extension = ""
     for i in range(len(path) - 1, -1, -1):
@@ -10,7 +9,6 @@ def get_extension(path: str):
         if path[i] == "/":
             return None
     return extension[::-1].lower()
-
 
 def number_format(num: float, char: chr = "˙"):
     """
