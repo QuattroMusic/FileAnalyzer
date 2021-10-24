@@ -40,6 +40,6 @@ If you don't know where to start you can look at the list of issues to know what
 
 # Dependencies
 
-`audioread`, used to analyze audio files.
+See requirements.txt
 
-use `pip install audioread` to install it, if you don't have it.
+To install, use `pip install -r requirements.txt`
