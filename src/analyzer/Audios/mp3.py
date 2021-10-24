@@ -9,8 +9,10 @@ rowsData = {
 }
 durations = []
 
+
 def should_analyze(ext):
     return ext in [".mp3"]
+
 
 def analyze(path):
     rowsData["file_count"] += 1
@@ -18,6 +20,7 @@ def analyze(path):
 
     rowsData["min_duration"] = min(durations)
     rowsData["max_duration"] = max(durations)
+
 
 def get_data():
     return rowsData

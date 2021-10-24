@@ -20,6 +20,7 @@ charactersData = {
     "total": 0
 }
 
+
 def reset():
     for key, value in rowsData.items():
         print(key, value)
@@ -29,6 +30,7 @@ def reset():
         if type(value) is int:
             charactersData[key] = 0
 
+
 def should_analyze(ext):
     return ext in [".py", ".pyw"]
 
@@ -37,9 +39,10 @@ def analyze(path):
     file = utils.get_file_content(path)
     analyze_rows(file)
     utils.analyze_chars(file, charactersData)
-    
+
+
 def analyze_rows(file):
-    
+
     # Rows Data
     rowAmt = utils.get_row_amount(file)
     rowsData["rows"] += rowAmt
@@ -60,27 +63,29 @@ def analyze_rows(file):
         elif len(stripped) > 0:
             # check if there's a comment in the middle of the line
             # comment must not be inside a standard string
-            
+
             # when you split based on string rows, you can either be inside the string, or outside
             # pieces outside the string are in the odd positions, pieces inside in the evens
-            splitted = [piece for i, piece in enumerate(stripped.split("\"")) if i % 2 == 0]
-            
+            splitted = [piece for i, piece in enumerate(
+                stripped.split("\"")) if i % 2 == 0]
+
             # after that apply same logic to the other string symbol
             code_pieces = []
             for piece in splitted:
-                parts = [code_part for i, code_part in enumerate(piece.split("\'")) if i % 2 == 0]
+                parts = [code_part for i, code_part in enumerate(
+                    piece.split("\'")) if i % 2 == 0]
                 code_pieces.extend(parts)
-            
+
             # search for comments in each code part not in strings
             for piece in code_pieces:
                 if '#' in piece:
                     rowsData["comment_rows"] += 1
-                    break # when you've found a comment symbol, the rest of the line is a comment, don't count it again
-        
-        
+                    break  # when you've found a comment symbol, the rest of the line is a comment, don't count it again
+
         if row.startswith("from") or row.startswith("import"):
             # imports
             rowsData["import_rows"] += 1
+
 
 def get_data():
     return rowsData, charactersData
