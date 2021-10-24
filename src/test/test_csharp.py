@@ -1,5 +1,5 @@
 import unittest
-from ProgrammingLanguages import csharp as cSharpAnalyzer
+from src.analyzer.ProgrammingLanguages import csharp as cSharpAnalyzer
 
 class TestCSharpAnalizerMethods(unittest.TestCase):
 
@@ -17,10 +17,10 @@ class TestCSharpAnalizerMethods(unittest.TestCase):
         self.assertEqual(chars_data["lang"], "CSharp")
         self.assertEqual(chars_data["letters"], 165)
         self.assertEqual(chars_data["symbols"], 32)
-        self.assertEqual(chars_data["whitespaces"], 101)
+        self.assertEqual(chars_data["whitespaces"], 102)
         self.assertEqual(chars_data["digits"], 0)
         self.assertEqual(chars_data["numbers"], 0)
-        self.assertEqual(chars_data["total"], 298)
+        self.assertEqual(chars_data["total"], 299)
     
     def test_comment_simple(self):
         cSharpAnalyzer.analyze_rows("// this is a comment")
